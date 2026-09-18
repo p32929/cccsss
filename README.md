@@ -6,21 +6,37 @@ A pure Node.js rewrite of [ccss](https://github.com/p32929/ccss) — same app, *
 
 ## Install
 
-Needs Node 18+.
+Needs Node 18+. No dependencies to pull in — the install is one file and a `lib/` folder.
+
+### Option A — from npm
 
 ```bash
+npm install -g cccsss
+```
+
+Or run it once without installing:
+
+```bash
+npx cccsss
+```
+
+### Option B — from source
+
+```bash
+git clone https://github.com/p32929/cccsss.git
+cd cccsss
 ./run.sh
 ```
 
-That installs `cccsss` globally (`npm install -g`) and starts it in the folder you ran it from — so you land on your own project's sessions, not this repo's.
+`run.sh` installs it globally and then starts it **in the folder you ran it from**, not in the clone — so you land on your own project's sessions.
 
-To remove it again:
+### Uninstalling
 
 ```bash
-./uninstall.sh
+npm uninstall -g cccsss
 ```
 
-Removes the global package and `~/Library/Application Support/cccsss` (or `~/.config/cccsss`). It never touches `~/.claude`.
+That leaves your settings behind. `./uninstall.sh` (in the clone) removes the package *and* `~/Library/Application Support/cccsss` (or `~/.config/cccsss`), and asks before it touches anything. Neither one goes near `~/.claude` — your sessions are yours.
 
 ## Use
 
