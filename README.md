@@ -2,7 +2,7 @@
 
 Browse your Claude Code sessions and get the exact command to resume any of them.
 
-A pure Node.js rewrite of [ccss](https://github.com/p32929/ccss) — same app, **zero dependencies**. The TUI (lists, filtering, scrolling transcript, search) is built directly on ANSI escapes and raw-mode stdin.
+Pure Node.js, **zero dependencies**. The whole TUI — lists, filtering, the scrolling transcript, search — is built directly on ANSI escapes and raw-mode stdin.
 
 ## Install
 
