@@ -2,13 +2,38 @@
   "name": "cccsss",
   "version": "2.0.0",
   "description": "Browse your Claude Code sessions and get the exact command to resume any of them.",
-  "bin": { "cccsss": "cccsss.js" },
+  "bin": {
+    "cccsss": "cccsss.js"
+  },
   "main": "cccsss.js",
-  "files": ["cccsss.js", "lib", "README.md", "LICENSE"],
-  "scripts": { "test": "node --test" },
-  "engines": { "node": ">=18" },
+  "files": [
+    "cccsss.js",
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "license": "MIT",
-  "repository": { "type": "git", "url": "git+https://github.com/p32929/cccsss.git" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/p32929/cccsss.git"
+  },
   "homepage": "https://github.com/p32929/cccsss#readme",
-  "keywords": ["claude", "claude-code", "sessions", "resume", "tui", "cli"]
+  "keywords": [
+    "claude",
+    "claude-code",
+    "sessions",
+    "resume",
+    "tui",
+    "cli"
+  ],
+  "funding": {
+    "type": "buymeacoffee",
+    "url": "https://www.buymeacoffee.com/p32929"
+  }
 }
