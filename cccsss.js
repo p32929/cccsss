@@ -5,6 +5,7 @@
 const os = require('node:os');
 const path = require('node:path');
 const fs = require('node:fs');
+const { spawnSync } = require('node:child_process');
 
 const D = require('./lib/data');
 const T = require('./lib/term');
@@ -316,6 +317,11 @@ function keySessions(k) {
         m.status = 'sorted by ' + D.SORT_MODES[m.sortMode].name;
         return;
       case 'c': m.status = copyResume(); return;
+      case 'r': {
+        const it = sessList.selected();
+        if (it) return runResume(it.s);
+        return;
+      }
       case 'd': {
         const it = sessList.selected();
         if (it) { m.pending = { isProject: false, session: it.s }; m.status = ''; }
@@ -356,6 +362,7 @@ function keyConversation(k) {
       m.status = '';
       return;
     case 'c': m.status = copyResume(); return;
+    case 'r': return runResume(m.session);
     case 'd': m.pending = { isProject: false, session: m.session }; m.status = ''; return;
     case '/':
       m.searching = true;
@@ -450,6 +457,25 @@ function copyResume() {
   // The command itself is already on screen right above this line, so report
   // only what the clipboard adds to it: the cd that makes it runnable anywhere.
   return s.cwd ? 'copied ✓  prefixed with cd ' + s.cwd : 'copied ✓';
+}
+
+// ---------- run ----------
+
+// runResume hands the terminal over to `claude --resume` directly, instead of
+// just copying the command. It leaves the alt screen and raw mode the same
+// way quit() does, then execs claude with stdio inherited so it takes over
+// this exact terminal; cccsss exits once claude does.
+function runResume(s) {
+  if (!s) return;
+  const mode = D.RESUME_MODES[m.resumeMode];
+  T.alt.exit();
+  if (process.stdin.isTTY) process.stdin.setRawMode(false);
+  const r = spawnSync('claude', D.resumeArgs(s, mode), { cwd: s.cwd || process.cwd(), stdio: 'inherit' });
+  if (r.error) {
+    console.error('failed to run claude:', r.error.message);
+    process.exit(1);
+  }
+  process.exit(r.status ?? 0);
 }
 
 // ---------- search / prompt jumping ----------
@@ -715,9 +741,9 @@ function viewSessions() {
       fitKeys('s sort · / filter · esc back · q quit', 'esc back · q quit'));
   }
   return screen(sessList.view(), state, commandBlock(it.s),
-    fitKeys('↑/↓ move · enter read · c copy · m mode · s sort · / filter · d delete · esc back · q quit',
-      '↑/↓ move · enter read · c copy · m mode · s sort · d delete · esc back · q quit',
-      'enter read · c copy · d delete · esc back · q quit'));
+    fitKeys('↑/↓ move · enter read · r run · c copy · m mode · s sort · / filter · d delete · esc back · q quit',
+      '↑/↓ move · enter read · r run · c copy · m mode · s sort · d delete · esc back · q quit',
+      'enter read · r run · c copy · d delete · esc back · q quit'));
 }
 
 // commandBlock renders the resume command and, under it, what the active mode
@@ -738,9 +764,9 @@ function viewConversation() {
     + S.dim(`  ${Math.round(convVP.scrollPercent() * 100)}%`);
 
   let footer = S.footer(pad(fitKeys(
-    '↑/↓ scroll · [ ] prev/next prompt · / search · n/N matches · g/G top/bottom · c copy · m mode · d delete · esc back · q quit',
-    '↑/↓ scroll · [ ] prompt · / search · n/N match · g/G ends · c copy · m mode · d delete · esc back · q quit',
-    '↑/↓ scroll · / search · c copy · m mode · d delete · esc back · q quit')));
+    '↑/↓ scroll · [ ] prev/next prompt · / search · n/N matches · g/G top/bottom · r run · c copy · m mode · d delete · esc back · q quit',
+    '↑/↓ scroll · [ ] prompt · / search · n/N match · g/G ends · r run · c copy · m mode · d delete · esc back · q quit',
+    '↑/↓ scroll · / search · r run · c copy · m mode · d delete · esc back · q quit')));
   if (m.pending) footer = confirmLine();
   else if (m.searching) footer = S.footer(pad('enter jump to first match · esc cancel'));
   else if (m.err) footer = S.err(pad(D.oneLine(m.err, textWidth())));

@@ -60,14 +60,14 @@ Pick a session, press `c`, and you get `cd /Users/you/dev/my-app && claude --res
 | Screen | Keys |
 |---|---|
 | Projects | `↑/↓` move · `/` filter · `s` sort · `enter` open · `p` open a path · `d` delete project · `q` quit |
-| Sessions | `↑/↓` move · `/` filter · `s` sort · `enter` read · `c` copy · `m` mode · `d` delete · `esc` back · `q` quit |
-| Transcript | `↑/↓ pgup/pgdn` scroll · `g`/`G` ends · `[`/`]` prev/next prompt · `/` search · `n`/`N` matches · `c` copy · `m` mode · `d` delete · `esc` back · `q` quit |
+| Sessions | `↑/↓` move · `/` filter · `s` sort · `enter` read · `r` run · `c` copy · `m` mode · `d` delete · `esc` back · `q` quit |
+| Transcript | `↑/↓ pgup/pgdn` scroll · `g`/`G` ends · `[`/`]` prev/next prompt · `/` search · `n`/`N` matches · `r` run · `c` copy · `m` mode · `d` delete · `esc` back · `q` quit |
 
 Every screen lists its keys in the footer.
 
 ## Resume modes
 
-`m` cycles the command through Claude Code's permission modes: normal, plan, accept edits, auto, don't ask, bypass permissions. The app never runs anything — it only shows you the command. Your mode and sort choices are remembered between runs.
+`m` cycles the command through Claude Code's permission modes: normal, plan, accept edits, auto, don't ask, bypass permissions. `c` copies the command instead of running anything. `r` runs it directly — cccsss hands the terminal to `claude --resume` and exits once it does. Your mode and sort choices are remembered between runs.
 
 ## Deleting
 

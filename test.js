@@ -55,6 +55,7 @@ test('session metadata comes from the transcript', async () => {
 
   const mode = D.RESUME_MODES.find((x) => x.name === 'plan');
   assert.equal(D.resumeCommandCd(s, mode), 'cd /work/app && claude --resume abc12345-0000 --permission-mode plan');
+  assert.deepEqual(D.resumeArgs(s, mode), ['--resume', 'abc12345-0000', '--permission-mode', 'plan']);
 });
 
 test('conversation turns are ordered and typed', async () => {
