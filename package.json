@@ -1,6 +1,6 @@
 {
   "name": "cccsss",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Browse your Claude Code sessions and get the exact command to resume any of them.",
   "bin": {
     "cccsss": "cccsss.js"
